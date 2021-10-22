@@ -1,3 +1,14 @@
+# Entrega Práctica 2: Regresión Logística
+|Autores|Correo|
+|-|-|
+|Clara Daniela Sima|csima@ucm.es|
+|Stiven Arias Giraldo|starias@ucm.es|
+
+# Parte 1 - Regresión Logística
+Cálculo vectorizado mediante regresión logística del gradiente y de la función de coste con dos variables de X (siendo estos valores notas de éxamenes) para determinar si los alumnos que hicieron los exámenes están aprobados o no. El gradiente calculado se guarda en un vector **Theta** y el coste en **J**. Además, se hace uso de  **opt.fmin_tnc** para calcular el valor óptimo de Theta.
+
+### Sección de código
+```py
 import numpy as np
 from numpy.lib import diff
 from pandas.io.parsers import read_csv
@@ -106,20 +117,33 @@ def gradient():
     Theta = np.zeros(n)
 
     J = fun_J(Theta, XX, Y)
-    Theta = new_Theta(Theta, XX, Y)
-    print("Función de coste: ", J)
-    print("New Thetas: ", Theta)
+    #Theta = new_Theta(Theta, XX, Y)
+    #print("Función de coste: ", J)
+    #print("New Thetas: ", Theta)
 
 
     # Graph section
-    data_exam_graph(X, Y)
     result = opt.fmin_tnc(func = fun_J, x0 = Theta, fprime = new_Theta, args = (XX, Y))
     theta_opt = result[0]
     print("Precentage of succes: {} %".format(percentage(theta_opt, XX, Y)))
     
+    data_exam_graph(X, Y)
     lineal_fun_graph(XX, Y, theta_opt)
     return 1
 
 # main
 gradient()
 plt.show()
+```
+
+# Gráficas - Parte 1
+
+##### Distribución de los resultados de los dos exámenes de los alumnos determinando si son admitidos o no. Función lineal calculada mediante regresión logística para determinar si un alumno es admitido o no: $$if: g(x,y) \geq 0.5 : admitido$$
+
+<img src= "https://user-images.githubusercontent.com/47497948/138533286-4fcf4b6f-bee9-43e2-b8d7-e09c2ccaaaf5.png" width="500">
+
+##### Resultado de la **función de coste** con **Theta = 0** y de los nuevos valores entrenados de Theta mediante la función **new_Theta** del código.
+<img src = "https://user-images.githubusercontent.com/47497948/138533698-decbe899-d70f-4da9-84da-3ad0b980c09d.png" width = "500">
+
+##### Porcentaje de éxito calculado mediante el valor de **Theta óptimo**
+<img src = "https://user-images.githubusercontent.com/47497948/138533855-c3a5778a-9335-4da0-9a8e-a1b76702e356.png" width = "500">
