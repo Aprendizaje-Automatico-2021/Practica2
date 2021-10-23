@@ -23,7 +23,6 @@ def data_exam_graph(X, Y):
     # Result of not admitted
     neg = np.where (Y == 0)
 
-    fig = plt.figure()
     plt.ylabel('Microchip 2', c = 'k', size='15')
     plt.xlabel('Microchip 1', c = 'k', size='15')
     plt.scatter(X[pos, 0], X[pos, 1], marker='+', c='k', label="y = 1")
@@ -70,7 +69,6 @@ def new_theta(Theta, m, X, Y, lamb):
     return NewTheta
 
 def lineal_fun_graph(X, Y, Theta, poly):
-    plt.figure()
 
     x1_min, x1_max = X[:, 0].min(), X[:, 0].max()
     x2_min, x2_max = X[:, 1].min(), X[:, 1].max()
@@ -87,7 +85,7 @@ def lineal_fun_graph(X, Y, Theta, poly):
     plt.contour(xx1, xx2, h, [0.5], linewidths=1, colors='b')
     return 0
 
-def solution():
+def solution(lamb = 1):
     valores = read_data()
     
     # Add all the rows and the col(len - 1)
@@ -105,7 +103,6 @@ def solution():
     Theta = np.zeros(n)
 
     # lambda
-    lamb = 1
     J = fun_J(Theta, m, XX, Y, lamb)
     print("J: ", J)
     T = new_theta(Theta, m, XX, Y, lamb)
@@ -113,10 +110,13 @@ def solution():
     theta_op = scipy.optimize.fmin_tnc(fun_J, Theta, new_theta, args=(m, XX, Y, lamb))
 
     # Graph section
+    plt.title(r'$\lambda$ = ' + str(lamb))
     data_exam_graph(X, Y)
-    lineal_fun_graph(X, Y, theta_op, poly)
-    return 1
+    lineal_fun_graph(X, Y, theta_op[0], poly)
 
-solution()
+    return 0
 
+# main
+plt.figure()
+solution(-0.00005)
 plt.show()
